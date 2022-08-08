@@ -1,0 +1,160 @@
+/*
+
+oui, ça compte comme modification. arrête tes conneries
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+@font-face {
+    font-family: minecraft;
+    src: url("fonts/Minecrafter.Reg.ttf");
+}
+
+@font-face {
+    font-family: valorant;
+    src: url("fonts/Valorant.ttf");
+}
+
+html{
+    background-image: url("images/prot.png");
+}
+
+h1{
+    color:white;
+    font-family: minecraft;
+    font-size: 72px;
+}
+
+h2{
+    color:white;
+    font-family: valorant;
+}
+
+.msg{
+	resize: none;
+	background-color: #525252;
+	font-size: 20px;
+	font-family: trashhand;
+	color:#ccc;
+	border: ridge #ccc;
+  	border-width: 6px;
+}
+
+button{
+	background-color: white;
+	color: black;
+	border: 2px solid #0000ff;
+	
+	width: 350px;
+    height: 75px;
+}
+
+/*
+	l'utilité de :hover permet de changer le css d'un élément quand celui-ci a le curseur de souris sur lui.
+	ici, la couleur du texte, du fond du bouton, et de la bordure sont modifié.
+	le curseur est également modifié pour mettre le pointeur correct car pour une raison inconnue
+	les boutons en html ne changent pas le curseur en pointer par défaut,
+	c'est vraiment attardé mais bon, au moins c'est simple a corriger
+	afin de donner a l'utilisateur un retour visuel qu'il s'agit d'un bouton
+*/
+
+button:hover{
+	color: white;
+	cursor: pointer;
+	background-color: #525252;
+	border: 2px solid rgb(255, 0, 191);
+}
