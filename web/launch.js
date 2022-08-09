@@ -8,7 +8,7 @@ button.addEventListener('click', () => {
     launch(label.value)
 });
 
-
+// fait une requete a express pour lancer le jeu une fois le pseudo validé
 function launch(username)
 {
     if(launched) return alert("le jeu est déjà lancé !");

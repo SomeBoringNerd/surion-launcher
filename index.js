@@ -99,19 +99,51 @@ dernière note : 2b2fr.xyz, serveur anarchie 1.19.1, NoChatReport (plugin custom
 
 */
 
+// imports
 const fs = require('fs')
 
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const express = require('express')
 const eapp = express()
+const unzip = require('unzipper');
+const getAppDataPath = require("appdata-path");
 
 const { Client, Authenticator } = require('minecraft-launcher-core');
 const launcher = new Client();
+const download = require('download');
 
+// express pour workaround Electron qui ne communique pas avec Node
 eapp.listen(55555, () => {})
 
-eapp.get('/launch', (req, res) => {
+eapp.get('/launch', async(req, res) => 
+{
+    console.log("path : " + getAppDataPath("surion-pvp"))
+
+    if(!fs.existsSync(getAppDataPath("surion-pvp")))
+    {
+        // créé le dossier si besoin
+        await fs.mkdir(getAppDataPath("surion-pvp"), (err) => {console.log(err)})
+    }else
+    {
+        // supprime les mods / configs
+        if(fs.existsSync(path.join(getAppDataPath("surion-pvp"), "mods")))
+        {
+            await fs.rm(path.join(getAppDataPath("surion-pvp"), "mods"), {recursive: true,}, (err) => {console.log(err)})
+        }
+        if(fs.existsSync(path.join(getAppDataPath("surion-pvp"), "config")))
+        {
+            await fs.rm(path.join(getAppDataPath("surion-pvp"), "config"), {recursive: true,}, (err) => {console.log(err)})
+        }
+    }
+
+    // télécharge Forge et les rescources, puis extrait les rescources
+
+    await download("http://files.surion-pvp.fr/forge.jar", getAppDataPath("surion-pvp"), (err) => {console.log(err)})
+    await download("http://files.surion-pvp.fr/ressources.zip", getAppDataPath("surion-pvp"), (err) => {console.log(err)})
+    await fs.createReadStream(path.join(getAppDataPath("surion-pvp") , "ressources.zip")).pipe(unzip.Extract({ path: getAppDataPath("surion-pvp") }));
+
+    // prépare le lancement du jeu
     let opts = 
     {
         authorization: Authenticator.getAuth(req.query.player),
@@ -120,22 +152,23 @@ eapp.get('/launch', (req, res) => {
             number: "1.12.2",
             type: "release"
         },
-        forge: "./forge.jar",
+        forge: path.join(getAppDataPath("surion-pvp"), "forge.jar"),
         memory: {
             max: "6G",
             min: "4G"
         },
-        root: './surion-pvp',
+        root: getAppDataPath("surion-pvp"),
         maxSockets: 10
     }
 
 
-    launcher.launch(opts);
+    await launcher.launch(opts);
 
     launcher.on('debug', (e) => console.log(e));
     launcher.on('data', (e) => console.log(e));
 })
 
+// Electron créé une page en 720p
 function createWindow () 
 {
     const win = new BrowserWindow({
