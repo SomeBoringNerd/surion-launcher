@@ -1,6 +1,8 @@
 # SURION-LAUNCHER
 
-launcher pour le serveur pvp faction moddé Surion-pvp
+Azukio est une salope qui ment, donc au lieu de me payer comme il aurai dû, il a prit le launcher et m'a plus ou moins ghosté
+
+Voici ton launcher Azukio, pour toi et tout ceux que ça interesse :)
 
 # build instruction
 
